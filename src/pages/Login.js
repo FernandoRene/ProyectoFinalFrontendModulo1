@@ -54,7 +54,7 @@ const Login = () => {
     
     if (validateForm()) {
       setIsSubmitting(true);
-      console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
+
       try {
         await login(formData);
         navigate('/dashboard');
