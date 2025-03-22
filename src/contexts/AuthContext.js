@@ -9,7 +9,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
 console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
 console.log("API_URL completo:", API_URL);
-console.log("Credenciales:", credentials);
+
 // Crear el contexto de autenticación
 export const AuthContext = createContext();
 
