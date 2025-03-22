@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
 import { useTask } from '../contexts/TaskContext';
 import '../styles/Task.css';
 
@@ -13,7 +11,17 @@ const TaskItem = ({ task, onEditTask }) => {
   // Formatear fecha de vencimiento
   const formatDueDate = (dateString) => {
     if (!dateString) return 'Sin fecha límite';
-    return format(new Date(dateString), 'PPP', { locale: es });
+    //console.log(dateString);
+    const date = new Date(dateString);
+    const formatter = new Intl.DateTimeFormat('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
+    const formattedDate = formatter.format(date);
+    //console.log('Formatted Date:', formattedDate);
+    return formattedDate;
   };
 
   // Obtener clase CSS según el estado de la tarea
@@ -65,28 +73,29 @@ const TaskItem = ({ task, onEditTask }) => {
           {error}
         </div>
       )}
-      
+
       <div className="task-content">
         <div className="task-info">
           <h3 className="task-title">{task.title}</h3>
-          
+
           {task.description && (
             <p className="task-description">{task.description}</p>
           )}
-          
+
           <div className="task-meta">
             <span className={`status-badge ${getStatusClass()}`}>
               {task.status}
             </span>
-            
-            {task.dueDate && (
+            {task.dueDate === null ? (
+              <span className="due-date-badge">Sin fecha límite</span>
+            ) : task.dueDate && (
               <span className="due-date-badge">
                 {formatDueDate(task.dueDate)}
               </span>
             )}
           </div>
         </div>
-        
+
         <div className="task-actions">
           {task.status !== 'completada' && (
             <>
@@ -98,7 +107,7 @@ const TaskItem = ({ task, onEditTask }) => {
               >
                 ✏️
               </button>
-              
+
               {task.status === 'en progreso' && (
                 <button
                   onClick={handleComplete}
@@ -111,7 +120,7 @@ const TaskItem = ({ task, onEditTask }) => {
               )}
             </>
           )}
-          
+
           <button
             onClick={handleDelete}
             className="action-button delete-button"

@@ -103,7 +103,7 @@ export const TaskProvider = ({ children }) => {
       
       // Actualizar el estado con las tareas obtenidas
       setTasks(fetchedTasks);
-      
+      //console.log('Tareas recibidas del servidor:', fetchedTasks); // revsión de data recibida acutualizada
       // Resetear contador de reintentos en caso de éxito
       retryCountRef.current = 0;
       
